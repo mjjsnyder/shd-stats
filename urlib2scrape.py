@@ -59,7 +59,7 @@ for i in allEvents:
         eventTeam = awayTeam
         eventPlayer = i.find('a').string
         eventAction = i.find('span').string
-        
+
     #for when I fix the score tracking
     #print('Time = %s, Team = %s, Player = %s, Action = %s, Home Score = %s, Away Score = %s' % (eventTime[:-2], eventTeam, eventPlayer, eventAction, homeScore, awayScore))
     print('Time = %s, Team = %s, Player = %s, Action = %s' % (eventTime[:-2], eventTeam, eventPlayer, eventAction))
