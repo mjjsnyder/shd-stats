@@ -11,7 +11,7 @@ headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:10.0.1) Gecko/20100101 Firefox/10.0.1',
 }
 opener.addheaders = headers.items()
-url = 'YOU MIGHT WANT TO ADD SOMETHING HERE, KNUCKLEHEAD!'
+url = 'YOU MIGHT WANT TO ADD SOMETHING HERE, KNUCKLEHEAD!!!'
 getWebsite = opener.open(url)
 pageContent = getWebsite.read()
 soup = BeautifulSoup(pageContent)
