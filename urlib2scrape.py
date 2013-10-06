@@ -10,6 +10,9 @@ eventPlayer = ''
 homeScore = 0
 awayScore = 0
 count = 0
+#Serves as a watcher to determine when the end of the half is
+nearEndOfHalf = False
+eventHalf = 1
 
 #NOTE to put soup into readable format: table.prettify())
 #Step one: connect to the relevant game's play by play page
@@ -47,6 +50,14 @@ for i in allEvents:
     #Grab the game clock for the individual event
     eventTime = i.next.string
 
+    #Trigger watcher for the end of the half (True when less than 1 minute on the game clock in first half)
+    if (int(eventTime.split(":")[0]) == 0) and (eventHalf == 1):
+        nearEndOfHalf = True
+
+    #Identify when the second half has started (Second half started when the game clock resets to something other than "0:##" and watcher had been enabled)
+    if (int(eventTime.split(":")[0]) != 0) and (nearEndOfHalf == True):
+        eventHalf = 2
+
     #Determine which team the event is relevant to
     try:
         if i.next.nextSibling.next.string == None:
@@ -72,9 +83,9 @@ for i in allEvents:
                 if '3-point' in eventAction:
                     awayScore += 3
 
-        print('Time = %s, Team = %s, Player = %s, Action = %s, Home Score = %s, Away Score = %s' % (eventTime[:-2], eventTeam, eventPlayer, eventAction, homeScore, awayScore))
+        print('Half = %s, Time = %s, Team = %s, Player = %s, Action = %s, Home Score = %s, Away Score = %s' % (eventHalf, eventTime[:-2], eventTeam, eventPlayer, eventAction, homeScore, awayScore))
         count += 1
-        if count == 50:
+        if count == 220:
             break
     except:
         print ('TIMEOUT')
