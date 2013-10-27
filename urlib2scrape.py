@@ -20,9 +20,7 @@ eventHalf = 1
 opener = urllib2.build_opener()
 
 #Must declare a user agent or some sites will take a dump on the GET request
-headers = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:10.0.1) Gecko/20100101 Firefox/10.0.1',
-}
+headers = {  'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:10.0.1) Gecko/20100101 Firefox/10.0.1',}
 opener.addheaders = headers.items()
 url = raw_input('URL to scrape:')
 getWebsite = opener.open(url)
@@ -51,12 +49,13 @@ for i in allEvents:
     eventTime = i.next.string
 
     #Trigger watcher for the end of the half (True when less than 1 minute on the game clock in first half)
-    if (int(eventTime.split(":")[0]) == 0) and (eventHalf == 1):
+    if (int(eventTime.split(":")[0]) == 0):
         nearEndOfHalf = True
 
     #Identify when the second half has started (Second half started when the game clock resets to something other than "0:##" and watcher had been enabled)
     if (int(eventTime.split(":")[0]) != 0) and (nearEndOfHalf == True):
-        eventHalf = 2
+        eventHalf += 1
+        nearEndOfHalf = False
 
     #Determine which team the event is relevant to
     try:
@@ -85,7 +84,7 @@ for i in allEvents:
 
         print('Half = %s, Time = %s, Team = %s, Player = %s, Action = %s, Home Score = %s, Away Score = %s' % (eventHalf, eventTime[:-2], eventTeam, eventPlayer, eventAction, homeScore, awayScore))
         count += 1
-        if count == 220:
+        if count == 40:
             break
     except:
         print ('TIMEOUT')
